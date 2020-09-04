@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="goods.sql">
+    <insert id="addGoodsSort">
+       insert into goods_type_wy(id,type_name,type_code,enable_flag,create_user,create_time,update_user,update_time)
+       values(#{id},#{type_name},#{type_code},#{enable_flag},#{create_user},NOW(),#{update_user},NOW())
+   </insert>
+    <select id="selectGoodsSort" resultType="com.hhwy.demo.domain.GoodsTypeDetail">
+        SELECT * from goods_type_wy where 1=1
+        <if test="type_name!=null and type_name!=''">
+            and `type_name` like  concat ('%',#{type_name},'%')
+        </if>
+        <if test="type_code!=null and type_code!=''">
+            and `type_code` like  concat ('%',#{type_code},'%')
+        </if>
+        <if test="enable_flag!=null and enable_flag!=''">
+            and enable_flag=#{enable_flag}
+        </if>
+        <if test="paging==true">
+            limit #{startIndex},#{rows}
+        </if>
+    </select>
+    <select id="getSortCount" resultType="Integer">
+        SELECT count(*) from goods_type_wy where 1=1
+        <if test="type_name!=null and type_name!=''">
+            and `type_name` like  concat ('%',#{type_name},'%')
+        </if>
+        <if test="type_code!=null and type_code!=''">
+            and `type_code` like  concat ('%',#{type_code},'%')
+        </if>
+        <if test="enable_flag!=null and enable_flag!=''">
+            and enable_flag=#{enable_flag}
+        </if>
+    </select>
+    <update id="updateGoodsSort">
+        UPDATE goods_type_wy
+        <set>
+            <if test="type_name != null and type_name!=''">type_name=#{type_name},</if>
+            <if test="enable_flag != null and enable_flag!=''">enable_flag=#{enable_flag}</if>
+        </set>
+        WHERE id=#{id}
+    </update>
+    <delete id="deleteGoodsSort">
+        DELETE FROM goods_type_wy WHERE id=#{id}
+    </delete>
+    <insert id="addGoodsInfo">
+       insert into goods_info_wy(id,type_code,goods_name,goods_code,num,unit,img_id,imgname,create_user,create_time,update_user,update_time)
+       values(#{id},#{type_code},#{goods_name},#{goods_code},#{num},#{unit},#{img_id},#{imgname},#{create_user},NOW(),#{update_user},NOW())
+   </insert>
+    <select id="selectGoodsSortAll" resultType="com.hhwy.demo.domain.GoodsType">
+        SELECT * from goods_type_wy
+    </select>
+
+    <update id="updateGoodsInfo">
+        UPDATE goods_info_wy
+        <set>
+            <if test="type_code != null and goods_name!=''">goods_name=#{goods_name},</if>
+            <if test="goods_name != null and goods_name!=''">goods_name=#{goods_name}</if>
+            <if test="num != null and num!=''">num=#{num},</if>
+            <if test="unit != null and unit!=''">unit=#{unit},</if>
+            <if test="create_user != null and create_user!=''">enable_flag=#{enable_flag},</if>
+            <if test="create_time != null and create_time!=''">enable_flag=#{enable_flag},</if>
+            <if test="update_user != null and update_user!=''">enable_flag=#{enable_flag},</if>
+            <if test="update_time != null and update_time!=''">enable_flag=#{enable_flag}</if>
+        </set>
+        WHERE id=#{id}
+    </update>
+    <select id="selectGoodsInfo" resultType="com.hhwy.demo.domain.GoodsInfo">
+        SELECT * from goods_info_wy where 1=1
+        <if test="goods_name!=null and goods_name!=''">
+            and `goods_name` like  concat ('%',#{goods_name},'%')
+        </if>
+        <if test="goods_code!=null and goods_code!=''">
+            and `goods_code` like  concat ('%',#{goods_code},'%')
+        </if>
+        <if test="type_code!=null and type_code!=''">
+            and type_code=#{type_code}
+        </if>
+        <if test="paging==true">
+            limit #{startIndex},#{rows}
+        </if>
+    </select>
+    <select id="getInfoCount" resultType="Integer">
+        SELECT count(*) from goods_info_wy where 1=1
+        <if test="goods_name!=null and goods_name!=''">
+            and `goods_name` like  concat ('%',#{goods_name},'%')
+        </if>
+        <if test="goods_code!=null and goods_code!=''">
+            and `goods_code` like  concat ('%',#{goods_code},'%')
+        </if>
+        <if test="type_code!=null and type_code!=''">
+            and type_code=#{type_code}
+        </if>
+    </select>
+    <delete id="deleteGoodsInfo">
+        DELETE FROM goods_info_wy WHERE id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateGoodsInfoNum">
+        UPDATE goods_info_wy SET num=#{num} WHERE  id=#{id}
+    </update>
+</mapper>

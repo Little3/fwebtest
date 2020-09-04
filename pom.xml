@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.hhwy</groupId>
+  <artifactId>fweb-demo</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>fweb-demo plugin</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java-version>1.8</java-version>
+
+    <!-- 插件默认基本包名为${project.groupId}.${project.artifactId}，若包名有变动请在此修改。 -->
+    <project-base-package>${project.groupId}.${project.artifactId}</project-base-package>
+
+    <!-- MANIFEST.MF文件默认属性 -->
+    <Plugin-Id>${project.groupId}.${project.artifactId}</Plugin-Id>
+    <Plugin-URI>${project.artifactId}</Plugin-URI>
+    <Plugin-Package-Path>${project-base-package}</Plugin-Package-Path>
+    <Plugin-Version>${project.version}</Plugin-Version>
+
+    <!-- 框架包版本   -->
+    <fweb-cached>0.2.5</fweb-cached>
+    <fweb-zookeeper-client>0.1.6</fweb-zookeeper-client>
+    <sequence-generator>0.1.1</sequence-generator>
+  </properties>
+
+  <!-- fweb -->
+  <dependencies>
+    <!-- 平台组件 begin -->
+    <!-- 底层组件 begin -->
+    <!-- 统一缓存 -->
+    <dependency>
+      <groupId>com.hhwy</groupId>
+      <artifactId>fweb-cached-redis</artifactId>
+      <version>${fweb-cached}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.hhwy</groupId>
+      <artifactId>fweb-cached-redis-sentinel</artifactId>
+      <version>${fweb-cached}</version>
+    </dependency>
+
+
+
+    <!-- zk客户端 -->
+    <dependency>
+      <groupId>com.hhwy</groupId>
+      <artifactId>fweb-zookeeper-client</artifactId>
+      <version>${fweb-zookeeper-client}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>log4j</groupId>
+          <artifactId>log4j</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+
+
+    <!-- 编码生成器 -->
+    <dependency>
+      <groupId>com.hhwy</groupId>
+      <artifactId>sequence-generator-api</artifactId>
+      <version>${sequence-generator}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.hhwy</groupId>
+      <artifactId>sequence-generator-client</artifactId>
+      <version>${sequence-generator}</version>
+    </dependency>
+
+    <!-- 底层组件 end -->
+    <!-- Fweb 核心包 begin -->
+    <dependency>
+      <groupId>com.hhwy</groupId>
+      <artifactId>fweb-core</artifactId>
+      <version>1.5.6</version>
+      <exclusions>
+        <!-- 排除poi的jar，避免与报表冲突 -->
+        <exclusion>
+          <groupId>org.apache.poi</groupId>
+          <artifactId>poi</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.poi</groupId>
+          <artifactId>poi-ooxml</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.hhwy</groupId>
+      <artifactId>fweb-commons</artifactId>
+      <version>1.6.8</version>
+    </dependency>
+    <dependency>
+      <groupId>com.hhwy</groupId>
+      <artifactId>fweb-frontpage</artifactId>
+      <version>1.2.110</version>
+    </dependency>
+    <!-- Fweb 核心包 end -->
+
+    <!-- 主控模块 begin -->
+    <dependency>
+      <groupId>com.hhwy</groupId>
+      <artifactId>business-mainframe-core</artifactId>
+      <version>1.7.28</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.hhwy</groupId>
+          <artifactId>sso-client</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.hhwy</groupId>
+          <artifactId>business-ac</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.hhwy</groupId>
+      <artifactId>business-mainframe-web</artifactId>
+      <version>1.7.28</version>
+      <classifier>plugin</classifier>
+      <type>zip</type>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <!-- 主控模块  end -->
+
+    <!-- 台账组件 begin -->
+    <dependency>
+      <groupId>com.hhwy</groupId>
+      <artifactId>code</artifactId>
+      <version>1.6.6</version>
+    </dependency>
+    <dependency>
+      <groupId>com.hhwy</groupId>
+      <artifactId>code</artifactId>
+      <version>1.6.6</version>
+      <classifier>plugin</classifier>
+      <type>zip</type>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <!-- 台账组件 end -->
+
+    <!-- 权限校验 begin -->
+    <dependency>
+      <groupId>com.hhwy</groupId>
+      <artifactId>business-sso</artifactId>
+      <version>0.1.5</version>
+    </dependency>
+    <!-- 权限校验 end -->
+
+    <!-- 权限管理 begin -->
+    <dependency>
+      <groupId>com.hhwy</groupId>
+      <artifactId>business-ac</artifactId>
+      <version>0.1.9</version>
+    </dependency>
+    <dependency>
+      <groupId>com.hhwy</groupId>
+      <artifactId>business-ac</artifactId>
+      <version>0.1.9</version>
+      <classifier>plugin</classifier>
+      <type>zip</type>
+    </dependency>
+    <!-- 权限管理 end -->
+
+    <!-- 公共核心包 begin -->
+    <dependency>
+      <groupId>com.hhwy</groupId>
+      <artifactId>business-core</artifactId>
+      <version>0.1.9-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.hhwy</groupId>
+      <artifactId>business-core</artifactId>
+      <version>0.1.9-SNAPSHOT</version>
+      <classifier>plugin</classifier>
+      <type>zip</type>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <!-- 公共核心包 end -->
+
+
+  </dependencies>
+
+  <build>
+    <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
+    <defaultGoal>install</defaultGoal>
+    <finalName>${Plugin-URI}</finalName>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+    <plugins>
+      <!-- 编译清除 -->
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.5</version>
+        <executions>
+          <!-- 清空lib文件夹 -->
+          <!-- 如果xml提示有解析错误，将鼠标悬浮在<execution>标签上，选择忽略此错误即可 -->
+          <execution>
+            <id>auto-clean</id>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+            <configuration>
+              <filesets>
+                <fileset>
+                  <directory>./src/main/webapp/WEB-INF/lib</directory>
+                </fileset>
+                <!-- 清除旧的插件下的classes -->
+                <fileset>
+                  <directory>./src/main/webapp/plugins/${Plugin-URI}/WEB-INF/classes</directory>
+                </fileset>
+
+                <!-- 清除旧的插件文件 -->
+                <fileset>
+                  <directory>./src/main/webapp/plugins</directory>
+                  <includes>
+                    <!-- 清除旧的ac插件 -->
+                    <include>ac/</include>
+                    <include>ac-plugin.zip</include>
+
+                    <!-- 清除旧的code插件 -->
+                    <include>code/</include>
+                    <include>code-plugin.zip</include>
+
+                    <!-- 清除旧的business插件 -->
+                    <include>business-core/</include>
+                    <include>business-core-plugin.zip</include>
+
+                    <!-- 清除旧的fweb-mainframe-web插件 -->
+                    <include>business-mainframe-web/</include>
+                    <include>business-mainframe-web-plugin.zip</include>
+
+                    <!-- 清除旧的ac插件 -->
+                    <include>business-ac/</include>
+                    <include>business-ac-plugin.zip</include>
+
+                  </includes>
+
+                </fileset>
+
+                <!-- 清除旧的台账配置导出文件 -->
+                <fileset>
+                  <directory>./src/main/webapp/WEB-INF/code-config</directory>
+                </fileset>
+              </filesets>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- 生成jar包 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <executions>
+          <execution>
+            <id>default-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <archive>
+                <!-- MANIFEST.MF文件属性设置 -->
+                <manifestEntries>
+                  <Plugin-Id>${Plugin-Id}</Plugin-Id>
+                  <Plugin-URI>${Plugin-URI}</Plugin-URI>
+                  <Plugin-Package-Path>${Plugin-Package-Path}</Plugin-Package-Path>
+                  <Plugin-Version>${Plugin-Version}</Plugin-Version>
+                </manifestEntries>
+              </archive>
+              <!-- 排除多余的配置文件 -->
+              <excludes>
+                <exclude>db.properties</exclude>
+                <exclude>initial.properties</exclude>
+              </excludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.10</version>
+        <executions>
+          <!-- 拷贝jar -->
+          <execution>
+            <id>copy_jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>./src/main/webapp/WEB-INF/lib</outputDirectory>
+              <excludeTypes>zip</excludeTypes>
+              <includeTypes>jar</includeTypes>
+            </configuration>
+          </execution>
+          <!-- 拷贝zip -->
+          <execution>
+            <id>copy_zip</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <!-- 排除business-ac，不下载此zip -->
+              <excludeArtifactIds>business-ac</excludeArtifactIds>
+              <outputDirectory>./src/main/webapp/plugins</outputDirectory>
+              <excludeTypes>jar</excludeTypes>
+              <includeTypes>zip</includeTypes>
+              <stripVersion>true</stripVersion>
+              <overWriteReleases>true</overWriteReleases>
+            </configuration>
+          </execution>
+          <!-- 获取MANIFEST文件 -->
+          <execution>
+            <id>unpack</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>${project.groupId}</groupId>
+                  <artifactId>${project.artifactId}</artifactId>
+                  <version>${project.version}</version>
+                  <type>jar</type>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>target</outputDirectory>
+                  <includes>META-INF/MANIFEST.MF</includes>
+                </artifactItem>
+                <!-- 解压business-ac -->
+                <artifactItem>
+                  <groupId>com.hhwy</groupId>
+                  <artifactId>business-ac</artifactId>
+                  <classifier>plugin</classifier>
+                  <type>zip</type>
+                  <outputDirectory>./src/main/webapp/plugins/ac</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- 定义项目编译版本 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.5.1</version>
+        <configuration>
+          <source>${java-version}</source>
+          <target>${java-version}</target>
+        </configuration>
+      </plugin>
+    </plugins>
+    <pluginManagement>
+      <plugins>
+        <!--This plugin's configuration is used to store Eclipse m2e settings
+            only. It has no influence on the Maven build itself. -->
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>
+                      org.apache.maven.plugins
+                    </groupId>
+                    <artifactId>
+                      maven-clean-plugin
+                    </artifactId>
+                    <versionRange>
+                      [2.5,)
+                    </versionRange>
+                    <goals>
+                      <goal>clean</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore></ignore>
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+</project>
